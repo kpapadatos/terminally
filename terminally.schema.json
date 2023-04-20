@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title": "Terminally Configuration",
+  "type": "object",
+  "properties": {
+    "groups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "terminals": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "description": "Terminal name"
+                },
+                "command": {
+                  "type": "string",
+                  "description": "Command to run in the terminal"
+                }
+              },
+              "required": ["title"]
+            }
+          }
+        }
+      }
+    }
+  }
+}
