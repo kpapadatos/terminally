@@ -20,6 +20,10 @@
                 "command": {
                   "type": "string",
                   "description": "Command to run in the terminal"
+                },
+                "jsDebug": {
+                  "type": "boolean",
+                  "description": "Use a JavaScript debugger"
                 }
               },
               "required": ["title"]

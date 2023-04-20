@@ -1,4 +1,4 @@
-# terminally
+# Terminally
 
 Applies a configuration of a terminal arrangement, read from a `.terminally` file in the current workspace.
 
@@ -12,28 +12,28 @@ Example configuration file:
     {
       "terminals": [
         {
-          "title": "terminal #1",
-          "command": "echo 'terminal #1'"
+          "title": "terminal 1",
+          "command": "echo 'terminal 1'"
         },
         {
-          "title": "terminal #2",
-          "command": "echo 'terminal #2'"
+          "title": "terminal 2",
+          "command": "echo 'terminal 2'"
         },
         {
-          "title": "terminal #3",
-          "command": "echo 'terminal #3'"
+          "title": "terminal 3",
+          "command": "echo 'terminal 3'"
         }
       ]
     },
     {
       "terminals": [
         {
-          "title": "terminal #1",
-          "command": "echo 'terminal #1'"
+          "title": "terminal 1",
+          "command": "echo 'terminal 1'"
         },
         {
-          "title": "terminal #2",
-          "command": "echo 'terminal #2'"
+          "title": "terminal 2",
+          "command": "echo 'terminal 2'"
         }
       ]
     }

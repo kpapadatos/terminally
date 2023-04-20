@@ -1,3 +1,4 @@
+import { sleep } from '@lunarade/xtools';
 import * as path from 'path';
 import * as vscode from 'vscode';
 
@@ -18,32 +19,65 @@ export function activate(context: vscode.ExtensionContext) {
 			for (const group of config.groups) {
 				let previousTerminal: vscode.Terminal | undefined = undefined;
 
-				for (const terminal of group.terminals) {
+				for (const terminalConfig of group.terminals) {
 					const location: any = previousTerminal ? { parentTerminal: previousTerminal } : undefined;
-					const terminalInstance = vscode.window.createTerminal({
-						name: terminal.title,
-						location
-					});
+					const isInGroup = !!previousTerminal as any;
+					const terminal =
+						terminalConfig.jsDebug ?
+							await createDebugTerminal(terminalConfig, isInGroup) :
+							vscode.window.createTerminal({
+								name: terminalConfig.title,
+								location
+							});
 
-					terminalInstance.show();
+					if (terminal) {
+						terminal.show();
 
-					if (terminal.command) {
-						terminalInstance.sendText(terminal.command);
+						if (terminalConfig.command) {
+							terminal.sendText(terminalConfig.command);
+						}
+
+						previousTerminal = terminal;
 					}
-
-					previousTerminal = terminalInstance;
 				}
 			}
 		} catch (error) {
 			vscode.window.showErrorMessage('Could not read the .terminally configuration file.');
 		}
-
 	});
-
-	context.subscriptions.push(disposable);
 }
 
 export function deactivate() { }
+
+async function createDebugTerminal(config: ITerminallyTerminal, splitActive?: boolean) {
+	if (splitActive) {
+		await splitActiveTerminal();
+	} else {
+		await vscode.commands.executeCommand('extension.js-debug.createDebuggerTerminal');
+	}
+
+	const term = vscode.window.terminals[vscode.window.terminals.length - 1];
+	term.show();
+
+	await sleep(500);
+	await vscode.commands.executeCommand('workbench.action.terminal.renameWithArg', {
+		name: config.title
+	});
+
+	return vscode.window.activeTerminal;
+}
+
+async function splitActiveTerminal() {
+	await vscode.commands.executeCommand('workbench.action.terminal.split', {
+		config: {
+			extensionIdentifier: 'ms-vscode.js-debug',
+			id: 'extension.js-debug.debugTerminal'
+		},
+		location: {
+			splitActiveTerminal: true
+		}
+	});
+}
 
 interface ITerminallyOptions {
 	groups: ITerminallyGroup[];
@@ -56,4 +90,5 @@ interface ITerminallyGroup {
 interface ITerminallyTerminal {
 	title: string;
 	command?: string;
+	jsDebug?: boolean;
 }
