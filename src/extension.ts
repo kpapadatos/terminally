@@ -45,9 +45,21 @@ export function activate(context: vscode.ExtensionContext) {
 			vscode.window.showErrorMessage('Could not read the .terminally configuration file.');
 		}
 	});
+
+	context.subscriptions.push(disposable);
+
+	offerToApplyConfig();
 }
 
 export function deactivate() { }
+
+async function offerToApplyConfig() {
+	const result = await vscode.window.showInformationMessage('Terminally: Do you want to open terminals?', 'Yes', 'No');
+
+	if (result === 'Yes') {
+		vscode.commands.executeCommand('terminally.applyWorkspace');
+	}
+}
 
 async function createDebugTerminal(config: ITerminallyTerminal, splitActive?: boolean) {
 	if (splitActive) {
