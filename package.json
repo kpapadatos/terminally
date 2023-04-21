@@ -2,7 +2,7 @@
   "name": "terminally",
   "displayName": "Terminally",
   "description": "A terminal management tool for your workspace.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "engines": {
     "vscode": "^1.77.0"
   },

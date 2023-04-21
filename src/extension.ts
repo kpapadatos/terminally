@@ -71,7 +71,7 @@ async function createDebugTerminal(config: ITerminallyTerminal, splitActive?: bo
 	const term = vscode.window.terminals[vscode.window.terminals.length - 1];
 	term.show();
 
-	await sleep(500);
+	await sleep(1e3);
 	await vscode.commands.executeCommand('workbench.action.terminal.renameWithArg', {
 		name: config.title
 	});
